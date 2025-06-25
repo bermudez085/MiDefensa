@@ -16,6 +16,7 @@ export default function Layout() {
               report: "alert-circle",
               index: "home",
               rights: "book",
+              news: "newspaper",
             };
             return (
               <Ionicons name={icons[route.name]} size={size} color={color} />

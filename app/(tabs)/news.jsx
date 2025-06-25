@@ -1,5 +1,4 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
 import {
   Dimensions,
   SafeAreaView,
@@ -62,7 +61,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#d9d9d9", 
+    backgroundColor: "#d9d9d9",
   },
   fakeHeader: {
     backgroundColor: "#d9d9d9",

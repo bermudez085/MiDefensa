@@ -5,31 +5,33 @@ import { StatusBar } from "expo-status-bar";
 
 export default function Layout() {
   return (
-    <ThemeProvider value={DefaultTheme}>
-      <StatusBar style="dark" />
-      <Tabs
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ color, size }) => {
-            const icons: any = {
-              index: "home",
-              plan: "document-text",
-              report: "alert-circle",
-              map: "map",
-              rights: "book",
-            };
-            return (
-              <Ionicons name={icons[route.name]} size={size} color={color} />
-            );
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        headerShown: false,
+        tabBarButton: HapticTab,
+        tabBarBackground: TabBarBackground,
+        tabBarStyle: Platform.select({
+          ios: {
+            // Use a transparent background on iOS to show the blur effect
+            position: 'absolute',
           },
-          tabBarActiveTintColor: "#000",
-          tabBarInactiveTintColor: "gray",
-          tabBarStyle: {
-            backgroundColor: "#fff",
-            borderTopWidth: 1,
-            borderTopColor: "#ccc",
-          },
-          headerShown: false,
-        })}
+          default: {},
+        }),
+      }}>
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="explore"
+        options={{
+          title: 'Explore',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+        }}
       />
     </ThemeProvider>
   );

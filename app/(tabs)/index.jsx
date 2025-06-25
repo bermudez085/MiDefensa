@@ -2,8 +2,8 @@ import { Ionicons } from "@expo/vector-icons";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import * as Location from "expo-location";
-import { useRouter } from "expo-router";
-import { useEffect, useRef, useState } from "react";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Dimensions,
   StyleSheet,
@@ -21,20 +21,21 @@ export default function IndexScreen() {
   const mapRef = useRef(null);
   const [reports, setReports] = useState([]);
 
-  useEffect(() => {
-    const fetchReports = async () => {
-      try {
-        const res = await fetch("http://192.168.0.56:5000/api/reports");
-        const data = await res.json();
-        setReports(data);
-      } catch (err) {
-        console.error("Failed to fetch reports:", err);
-      }
-    };
+  useFocusEffect(
+    useCallback(() => {
+      const fetchReports = async () => {
+        try {
+          const res = await fetch("http://192.168.0.56:5000/api/reports");
+          const data = await res.json();
+          setReports(data);
+        } catch (err) {
+          console.error("Failed to fetch reports:", err);
+        }
+      };
 
-    fetchReports();
-  }, []);
-
+      fetchReports();
+    }, [])
+  );
   const recenterMap = () => {
     if (location) {
       mapRef.current?.animateToRegion(
@@ -49,20 +50,6 @@ export default function IndexScreen() {
     }
   };
 
-  const markers = [
-    {
-      id: "1",
-      title: "ICE Reported",
-      description: "Central Ave & 3rd St",
-      coordinate: { latitude: 40.715, longitude: -74.003 },
-    },
-    {
-      id: "2",
-      title: "ICE Reported",
-      description: "Grand Concourse & 161st",
-      coordinate: { latitude: 40.826, longitude: -73.922 },
-    },
-  ];
 
   useEffect(() => {
     let subscriber;

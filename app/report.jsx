@@ -27,6 +27,8 @@ export default function ReportScreen() {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [preview, setPreview] = useState("");
+  const [lastGeocodeResult, setLastGeocodeResult] = useState(null);
+
   const geocodeAddress = async (address) => {
     try {
       const response = await fetch(
@@ -52,7 +54,6 @@ export default function ReportScreen() {
       console.error("Geocoding error:", err);
       return null;
     }
-    
   };
   useEffect(() => {
     const delayDebounce = setTimeout(async () => {
@@ -65,8 +66,10 @@ export default function ReportScreen() {
 
       if (result) {
         setPreview(`Found: ${result.displayName}`);
+        setLastGeocodeResult(result);
       } else {
         setPreview("Couldn’t find that location.");
+        setLastGeocodeResult(null);
       }
     }, 500); // wait 500ms before running
 
@@ -82,17 +85,14 @@ export default function ReportScreen() {
     let lat = latitude;
     let lon = longitude;
 
-    // If no GPS, try geocoding the typed location
     if (!lat || !lon) {
-      const result = await geocodeAddress(location.trim());
-
-      if (!result) {
+      if (!lastGeocodeResult) {
         Alert.alert("Couldn't find the location you typed.");
         return;
       }
 
-      lat = result.latitude;
-      lon = result.longitude;
+      lat = lastGeocodeResult.latitude;
+      lon = lastGeocodeResult.longitude;
     }
 
     try {

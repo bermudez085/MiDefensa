@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export default function MapScreen() {
+export default function PlanScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>🗺️ Map: ICE Alert Locations</Text>
+      <Text style={styles.text}>📄 Emergency Plan Generator</Text>
     </View>
   );
 }
